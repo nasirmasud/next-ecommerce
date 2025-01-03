@@ -4,7 +4,11 @@ import sampleData from "@/db/sample-data";
 const HomePage = () => {
   return (
     <>
-      <ProductList data={sampleData.products} title='Featured Products' />
+      <ProductList
+        data={sampleData.products}
+        title='Featured Products'
+        limit={10}
+      />
     </>
   );
 };
