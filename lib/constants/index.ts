@@ -4,3 +4,5 @@ export const APP_DESCRIPTION =
   "A Cool ecommerce app made by NextJS";
 export const SERVER_URL =
   process.env.NEXT_PUBLIC_SERVER_URL || "https://localhost:3000";
+export const LATEST_PRODUCTS_LIMIT =
+  Number(process.env.LATEST_PRODUCTS_LIMIT) || 10;
