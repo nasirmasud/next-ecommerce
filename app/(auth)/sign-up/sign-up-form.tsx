@@ -39,7 +39,7 @@ const SignUpForm = () => {
             id='name'
             name='name'
             type='text'
-            required
+            // required
             autoComplete='name'
             defaultValue={signUpDefaultValues.name}
           />
@@ -50,7 +50,7 @@ const SignUpForm = () => {
             id='email'
             name='email'
             type='email'
-            required
+            // required
             autoComplete='email'
             defaultValue={signUpDefaultValues.email}
           />
@@ -61,7 +61,7 @@ const SignUpForm = () => {
             id='password'
             name='password'
             type='password'
-            required
+            // required
             autoComplete='password'
             defaultValue={signUpDefaultValues.password}
           />
@@ -72,7 +72,7 @@ const SignUpForm = () => {
             id='confirmPassword'
             name='confirmPassword'
             type='password'
-            required
+            // required
             autoComplete='confirmPassword'
             defaultValue={signUpDefaultValues.confirmPassword}
           />
