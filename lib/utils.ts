@@ -16,7 +16,8 @@ export function formatNumberWithDecimal(num: number): string {
   return decimal ? `${int}.${decimal.padEnd(2, "0")}` : `${int}.00`;
 }
 
-//format errors-13-signup error handling-5.30min
+//format errors
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function formatError(error: any) {
   if (error.name === "ZodError") {
     //Handle Zod Error
