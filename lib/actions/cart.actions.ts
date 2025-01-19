@@ -3,6 +3,7 @@
 import { auth } from "@/auth";
 import { prisma } from "@/db/prisma";
 import { CartItem } from "@/types";
+import { revalidatePath } from "next/cache";
 import { cookies } from "next/headers";
 import { formatError, prismaToJsObject, roundT } from "../utils";
 import { cartItemSchema, insertCartSchema } from "../validitors";
@@ -12,7 +13,7 @@ const calculatePrice = (items: CartItem[]) => {
   const itemsPrice = roundT(
       items.reduce((acc, item) => acc + Number(item.price) * item.qty, 0)
     ),
-    shippingPrice = roundT(itemsPrice > 0 ? 0 : 100),
+    shippingPrice = roundT(itemsPrice > 100 ? 0 : 10),
     taxPrice = roundT(0.15 * itemsPrice),
     totalPrice = itemsPrice + shippingPrice + taxPrice;
   return {
@@ -53,14 +54,17 @@ export async function addItemToCart(data: CartItem) {
         ...calculatePrice([item]),
       });
 
-      //Testing
-      console.log(newCart);
+      //Add to database
+      await prisma.cart.create({
+        data: newCart,
+      });
+      //Revalidate product page
+      revalidatePath(`/product/${product.slug}`);
+      return {
+        success: true,
+        message: "Item added to cart",
+      };
     }
-
-    return {
-      success: true,
-      message: "Item added to cart",
-    };
   } catch (error) {
     return {
       success: false,
