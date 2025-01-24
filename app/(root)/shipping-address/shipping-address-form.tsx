@@ -24,7 +24,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
 
   const form = useForm<z.infer<typeof shippingAddressSchema>>({
     resolver: zodResolver(shippingAddressSchema),
-    defaultValues: address || shippingAddressDefaultValues,
+    defaultValues: shippingAddressDefaultValues || address,
   });
 
   const [isLoading, startTransition] = useTransition();
