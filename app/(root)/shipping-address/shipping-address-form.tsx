@@ -172,7 +172,7 @@ const ShippingAddressForm = ({ address }: { address: ShippingAddress }) => {
                 )}
               />
             </div>
-            <div className='flex gap-2'>
+            <div className='flex py-4'>
               <Button type='submit' disabled={isPending}>
                 {isPending ? (
                   <Loader className='w-4 h-4 animate-spin' />
