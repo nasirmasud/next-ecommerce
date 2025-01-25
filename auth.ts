@@ -8,7 +8,7 @@ import { prisma } from "./db/prisma";
 
 export const config = {
   pages: {
-    signIn: "/signin",
+    signIn: "/sign-in",
     error: "/error",
   },
   session: {
@@ -104,6 +104,22 @@ export const config = {
     },
 
     authorized({ request, auth }: any) {
+      //Array of regex patterns of paths we want to protect
+      const protectedPaths = [
+        /\/shipping-address/,
+        /\/payment-methods/,
+        /\/place-order/,
+        /\/profile/,
+        /\/users\/(.*)/,
+        /\/admin/,
+      ];
+      //Get pathname from request URL object
+      const { pathname } = request.nextUrl;
+      //Check if user is not authorized and accessing protected paths
+      if (!auth && protectedPaths.some((path) => path.test(pathname))) {
+        return false;
+      }
+
       //Check for session cart cookie
       if (!request.cookies.get("sessionCartId")) {
         //Generate new session cart id cookie
