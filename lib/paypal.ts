@@ -11,11 +11,13 @@ async function generateAccessToken() {
 
   const response = await fetch(`${base}/v1/oauth2/token`, {
     method: "POST",
+    body: "grant_type=client_credentials",
     headers: {
-      "Content-Type": "application/x-www-form-urlencoded",
       Authorization: `Basic ${auth}`,
+      "Content-Type": "application/x-www-form-urlencoded",
     },
   });
+
   if (response.ok) {
     const jsonData = await response.json();
     return jsonData.access_token;
@@ -24,3 +26,5 @@ async function generateAccessToken() {
     throw new Error(errorMessage);
   }
 }
+
+export { generateAccessToken };
