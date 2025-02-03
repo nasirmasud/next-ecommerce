@@ -144,7 +144,7 @@ export async function createPayPalOrder(orderId: string) {
 }
 
 //Approved paypal order and update order to paid
-export async function approvePaypalOrder(
+export async function approvePayPalOrder(
   orderId: string,
   data: { orderId: string }
 ) {
@@ -178,7 +178,7 @@ export async function approvePaypalOrder(
       },
     });
 
-    //Refrash the url
+    //Refresh the url
     revalidatePath(`/order/${orderId}`);
 
     return {
@@ -198,7 +198,7 @@ async function updateOrderToPaid({
   orderId: string;
   paymentResult: PaymentResult;
 }) {
-  //Get order fro database
+  //Get order from database
   const order = await prisma.order.findFirst({
     where: {
       id: orderId,
@@ -222,7 +222,11 @@ async function updateOrderToPaid({
     //Set the order to paid
     await tx.order.update({
       where: { id: orderId },
-      data: { isPaid: true, paidAt: new Date(), paymentResult },
+      data: {
+        isPaid: true,
+        paidAt: new Date(),
+        paymentResult,
+      },
     });
   });
 
