@@ -110,7 +110,7 @@ export const config = {
         /\/payment-methods/,
         /\/place-order/,
         /\/profile/,
-        /\/users\/(.*)/,
+        /\/user\/(.*)/,
         /\/admin/,
       ];
       //Get pathname from request URL object
