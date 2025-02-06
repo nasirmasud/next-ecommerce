@@ -1,3 +1,4 @@
+import Pagination from "@/components/shared/pagination";
 import {
   Table,
   TableBody,
@@ -22,7 +23,6 @@ const OrderPage = async (props: {
   const orders = await getMyOrders({
     page: Number(page) || 1,
   });
-  console.log(orders);
   return (
     <div className='space-y-2'>
       <h2 className='h2-bold'>Orders</h2>
@@ -62,6 +62,9 @@ const OrderPage = async (props: {
           ))}
         </TableBody>
       </Table>
+      {orders.totalPage > 1 && (
+        <Pagination page={Number(page) || 1} totalPages={orders?.totalPage} />
+      )}
     </div>
   );
 };
