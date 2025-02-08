@@ -345,3 +345,13 @@ export async function deleteOrder(id: string) {
     return { success: false, message: formatError(error) };
   }
 }
+
+//Update COD orders to paid
+export async function updateCODOrderToPaid(orderId: string) {
+  try {
+    await updateOrderToPaid({ orderId });
+    revalidatePath(`/order/${orderId}`);
+  } catch (error) {
+    return { success: false, message: formatError(error) };
+  }
+}
