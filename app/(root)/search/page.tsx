@@ -198,12 +198,14 @@ const SearchPage = async (props: {
       <div className='md:col-span-4 space-y-4'>
         <div className='flex-between flex-col my-4 md:flex-row'>
           <div className='flex items-center'>
-            {q !== "all" && q !== "" && "Query: " + q}
-            {category !== "all" && category !== "" && " Category: " + category}
-            {price !== "all" && price !== "" && " Price: " + price}
-            {rating !== "all" &&
-              rating !== "" &&
-              " Rating: " + rating + " & up"}{" "}
+            {q !== "all" && q !== "" && <span>Query: {q}</span>}
+            {category !== "all" && category !== "" && (
+              <span> Category: {category}</span>
+            )}
+            {price !== "all" && price !== "" && <span> Price: {price}</span>}
+            {rating !== "all" && rating !== "" && (
+              <span> Rating: {rating} & up</span>
+            )}
             {(q !== "all" && q !== "") ||
             (category !== "all" && category !== "") ||
             rating !== "all" ||
