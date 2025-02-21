@@ -33,11 +33,10 @@ export async function generateMetadata(props: {
       } ${isRatingSet ? rating : ""}`,
     };
   } else {
-    title: "Search Products";
+    return {
+      title: "Search Products",
+    };
   }
-  return {
-    title: "Search",
-  };
 }
 
 const sortOrders = ["newest", "lowest", "highest", "rating"];
