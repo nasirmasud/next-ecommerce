@@ -9,7 +9,7 @@ import { isRedirectError } from "next/dist/client/components/redirect-error";
 import { PAGE_SIZE } from "../constants";
 import { paypal } from "../paypal";
 import { formatError, prismaToJsObject } from "../utils";
-import { insertOrderSchema } from "../validitors";
+import { insertOrderSchema } from "../validators";
 import { getMyCart } from "./cart.actions";
 import { getUserById } from "./user.actions";
 
@@ -19,8 +19,8 @@ export async function createOrder() {
     if (!session) throw new Error("User is not Authenticated");
 
     const cart = await getMyCart();
-    const userId = session?.user?.id;
-    if (!userId) throw new Error("User not found");
+    const userId = session?.user?.id ?? null;
+    if (userId === null) throw new Error("User not found");
 
     const user = await getUserById(userId);
 
