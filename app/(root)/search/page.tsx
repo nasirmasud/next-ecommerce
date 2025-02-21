@@ -6,6 +6,8 @@ import {
 } from "@/lib/actions/product-actions";
 import Link from "next/link";
 
+const sortOrders = ["newest", "lowest", "highest", "rating"];
+
 const ratings = [4, 3, 2, 1];
 
 const prices = [
@@ -179,6 +181,19 @@ const SearchPage = async (props: {
                 <Link href='/search'>Clear</Link>
               </Button>
             ) : null}
+          </div>
+          <div>
+            {/* Sort */}
+            Sort by{" "}
+            {sortOrders.map((e) => (
+              <Link
+                key={e}
+                className={`mx-2 ${sort == e && "font-bold"}`}
+                href={getFilterUrl({ s: e })}
+              >
+                {e}
+              </Link>
+            ))}
           </div>
         </div>
         <div className='grid grid-cols-1 gap-4 md:grid-cols-3'>
