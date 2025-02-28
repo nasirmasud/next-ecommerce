@@ -15,6 +15,7 @@ import {
   FormField,
   FormItem,
   FormLabel,
+  FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import {
@@ -26,12 +27,13 @@ import {
 } from "@/components/ui/select";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
+import { createUpdateReview } from "@/lib/actions/review.actions";
 import { reviewFormDefaultValues } from "@/lib/constants";
 import { insertReviewSchema } from "@/lib/validitors";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { StarIcon } from "lucide-react";
 import { useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const ReviewForm = ({
@@ -41,7 +43,7 @@ const ReviewForm = ({
 }: {
   userId: string;
   productId: string;
-  onReviewSubmitted?: () => void;
+  onReviewSubmitted: () => void;
 }) => {
   const [open, setOpen] = useState(false);
   const { toast } = useToast();
@@ -51,18 +53,35 @@ const ReviewForm = ({
     defaultValues: reviewFormDefaultValues,
   });
 
+  //Open form handler
   const handleOpenForm = () => {
+    form.setValue("productId", productId);
+    form.setValue("userId", userId);
+
     setOpen(true);
+  };
+
+  const onSubmit: SubmitHandler<z.infer<typeof insertReviewSchema>> = async (
+    values
+  ) => {
+    const res = await createUpdateReview({ ...values, productId });
+    if (!res.success) {
+      return toast({ variant: "destructive", description: res.message });
+    }
+
+    setOpen(false);
+    onReviewSubmitted();
+    toast({ description: res.message });
   };
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <Button variant='default' onClick={handleOpenForm}>
-        Wright a review
+        Write a review
       </Button>
       <DialogContent className='sm:max-w-[425px]'>
         <Form {...form}>
-          <form method='post'>
+          <form method='post' onSubmit={form.handleSubmit(onSubmit)}>
             <DialogHeader>
               <DialogTitle>Write a review</DialogTitle>
               <DialogDescription>
@@ -120,6 +139,7 @@ const ReviewForm = ({
                         ))}
                       </SelectContent>
                     </Select>
+                    <FormMessage />
                   </FormItem>
                 )}
               />
