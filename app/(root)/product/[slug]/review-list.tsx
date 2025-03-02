@@ -1,5 +1,6 @@
 "use client";
 
+import Rating from "@/components/shared/product/rating";
 import {
   Card,
   CardContent,
@@ -73,9 +74,10 @@ const ReviewList = ({
             <CardContent>
               <div className='flex space-x-4 text-sm text-muted-foreground'>
                 {/* Rating */}
+                <Rating value={review.rating} />
                 <div className='flex items-center'>
                   <User className='mr-1 h-3 w-3' />
-                  {review.user ? review.user.name : "Anonymous"}
+                  {review.user ? review.user.name : "User"}
                 </div>
                 <div className='flex items-center'>
                   <Calendar className='mr-1 h-3 w-3' />
