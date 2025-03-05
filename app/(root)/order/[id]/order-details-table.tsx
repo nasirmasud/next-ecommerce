@@ -262,14 +262,14 @@ const OrderDetailsTable = ({
               <p className='mb-2'>{paymentMethod}</p>
               <PaymentStatusBadge
                 isPaid={!!isPaid}
-                paidAt={isPaid ? paidAt ?? undefined : undefined}
+                paidAt={isPaid ? (paidAt ?? undefined) : undefined}
               />
             </CardContent>
           </Card>
           <ShippingAddressCard
             shippingAddress={shippingAddress}
             isDelivered={!!isDelivered}
-            deliveredAt={isDelivered ? deliveredAt ?? undefined : undefined}
+            deliveredAt={isDelivered ? (deliveredAt ?? undefined) : undefined}
           />
           <Card>
             <CardContent className='p-4 gap-4'>
