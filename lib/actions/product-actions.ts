@@ -97,10 +97,10 @@ export async function getAllProducts({
       sort === "lowest"
         ? { price: "asc" }
         : sort === "highest"
-        ? { price: "desc" }
-        : sort === "rating"
-        ? { rating: "desc" }
-        : { createdAt: "desc" },
+          ? { price: "desc" }
+          : sort === "rating"
+            ? { rating: "desc" }
+            : { createdAt: "desc" },
     skip: (page - 1) * limit,
     take: limit,
   });
@@ -175,12 +175,30 @@ export async function updateProduct(data: z.infer<typeof updateProductSchema>) {
   }
 }
 
+// In-memory per-worker cache for category counts. This reduces repeated DB groupBy calls
+// during prerender/workers and helps stay under Neon permit limits.
+let categoriesCache: {
+  data: { category: string; _count: number }[];
+  fetchedAt: number;
+} | null = null;
+const categoriesCacheTtlMs = 5 * 60 * 1000; // 5 minutes
+
 //Get all category
 export async function getAllCategories() {
+  const now = Date.now();
+  if (
+    categoriesCache &&
+    now - categoriesCache.fetchedAt < categoriesCacheTtlMs
+  ) {
+    return categoriesCache.data;
+  }
+
   const data = await prisma.product.groupBy({
     by: ["category"],
     _count: true,
   });
+
+  categoriesCache = { data, fetchedAt: now };
   return data;
 }
 
